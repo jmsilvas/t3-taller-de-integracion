@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from "react";
 import Map from './components/Map';
+import Chat from './components/Chat';
 import {Container, Row, Col} from 'reactstrap';
 import { io } from "socket.io-client";
 
@@ -9,14 +10,14 @@ function App() {
   const [flights, setFlights] = useState([]);
   const [positions, setPosition] = useState({});
 
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
+  // function getRandomColor() {
+  //     var letters = '0123456789ABCDEF';
+  //     var color = '#';
+  //     for (var i = 0; i < 6; i++) {
+  //       color += letters[Math.floor(Math.random() * 16)];
+  //     }
+  //     return color;
+  //   }
 
   useEffect(() => {
     
@@ -29,7 +30,7 @@ function App() {
       // });
       socket.on("FLIGHTS", (payload) => {
         for (let index = 0; index < payload.length; index++) {
-          payload[index]["color"]=getRandomColor();
+          payload[index]["color"]='blue';
           
         }
         setFlights(payload)
@@ -46,7 +47,9 @@ function App() {
         <Col md="8" sm="12">
           <Map flights={flights} positions={positions}/>
         </Col>
-        <Col md="4" sm="12">Chat</Col>
+        <Col md="4" sm="12" >
+          <Chat />
+        </Col>
       </Row>
       <Row md="12">
           <h2>Info</h2>

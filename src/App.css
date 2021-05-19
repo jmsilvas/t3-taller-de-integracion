@@ -11,6 +11,21 @@ width: 100%;}
   padding-top: 4%;
 }
 
+.chat-scroll {
+  height: 90%;
+  /* width: 100%; */
+  border: 2px solid black;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.input-group23 {
+  width: 100px;
+}
+
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
