@@ -3,12 +3,12 @@ import React, {useEffect, useState} from "react";
 import Map from './components/Map';
 import Chat from './components/Chat';
 import {Container, Row, Col} from 'reactstrap';
-import { io } from "socket.io-client";
+import {socket} from './services/socket'
 
+socket.emit("FLIGHTS")
 
 function App() {
   const [flights, setFlights] = useState([]);
-  const [positions, setPosition] = useState({});
 
   // function getRandomColor() {
   //     var letters = '0123456789ABCDEF';
@@ -17,38 +17,29 @@ function App() {
   //       color += letters[Math.floor(Math.random() * 16)];
   //     }
   //     return color;
-  //   }
+  //   }  
 
-  useEffect(() => {
-    
 
-    const socket = io("wss://tarea-3-websocket.2021-1.tallerdeintegracion.cl", {
-      path: "/flights"});
-      socket.emit("FLIGHTS")
-      // socket.onAny((event, ...args) => {
-      //   console.log(`got ${event}`);
-      // });
-      socket.on("FLIGHTS", (payload) => {
-        for (let index = 0; index < payload.length; index++) {
-          payload[index]["color"]='blue';
-          
-        }
-        setFlights(payload)
-});
-      socket.on("POSITION", (payload) => {
-        positions[payload.code] = payload.position
-        setPosition(positions)
+  
+  
+    socket.on("FLIGHTS", (payload) => {
+      for (let index = 0; index < payload.length; index++) {
+        payload[index]["color"]='blue';
+        
+      }
+      setFlights(payload)
       });
-    },[flights, positions])
+   
+
   
   return (
     <Container className="main-container">
       <Row>
         <Col md="8" sm="12">
-          <Map flights={flights} positions={positions}/>
+          <Map socket={socket}flights={flights} setFlights={setFlights}/>
         </Col>
         <Col md="4" sm="12" >
-          <Chat />
+          <Chat socket={socket}/>
         </Col>
       </Row>
       <Row md="12">

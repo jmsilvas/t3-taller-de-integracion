@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline} from 'react-leaflet';
-// import "leaflet/dist/leaflet.css"
+import {socket} from '../services/socket'
 
 export default function Map(props) {
-    
+    const [positions, setPosition] = useState({});
+
+
+    socket.on("POSITION", (payload) => {
+        positions[payload.code] = payload.position
+        setPosition(positions)
+      });
+
   
     return (
         <div>
@@ -18,22 +25,22 @@ export default function Map(props) {
                     {/* <Marker key={flight.code+"ori"} position={[flight.origin[0], flight.origin[1]]}>
                         <Popup>
                             Origen Vuelo {flight.code}
-                            {props.positions[flight.code]? props.positions[flight.code]: "no hay avance"}
+                            {positions[flight.code]? positions[flight.code]: "no hay avance"}
                         </Popup>
                     </Marker> 
                     <Marker key={flight.code+"dest"} position={[flight.destination[0], flight.destination[1]]}>
                         <Popup>
                             Destino Vuelo {flight.code}
-                            {props.positions[flight.code]? props.positions[flight.code].position: "no hay avance"}
+                            {positions[flight.code]? positions[flight.code].position: "no hay avance"}
                         </Popup>
                     </Marker>  */}
                     <Polyline pathOptions={{color: flight.color}} positions={[flight.origin, flight.destination]}>
                         <Popup>{flight.code}</Popup>
                     </Polyline>
-                    {props.positions[flight.code]&&   <Marker key={flight.code+"loc"} position={[props.positions[flight.code][0],props.positions[flight.code][1]]}>
+                    {positions[flight.code]&&   <Marker key={flight.code+"loc"} position={[positions[flight.code][0],positions[flight.code][1]]}>
                         <Popup>
                             Posicion actual Vuelo {flight.code}
-                            {props.positions[flight.code]? props.positions[flight.code].position: "no hay avance"}
+                            {positions[flight.code]? positions[flight.code].position: "no hay avance"}
                         </Popup>
                     </Marker> }
                     </>))}

@@ -1,20 +1,34 @@
 import React, {useState, useEffect} from 'react';
 import {InputGroupAddon, Row, Button, Input, InputGroup} from 'reactstrap';
+import {socket} from '../services/socket'
 
 
-export default function Chat() {
+export default function Chat(props) {
     const [nickname, setNickname] = useState("")
     const [currentText, setCurrentText] = useState("")
+    const [chatText, setChatText] = useState("")
+
+    socket.on("CHAT", (payload) => {
+        if (payload.name===nickname) {
+            setChatText(chatText+"yo"+payload.date+payload.message)
+            
+            
+        }
+        else{
+            setChatText(chatText+payload.name+payload+payload.message)
+        }
+      });
     
 
     function sendMessage() {
-        console.log(currentText);
+        socket.emit("CHAT", {name:nickname, message: currentText});
         setCurrentText("")
     }
     return (
         <>
         {nickname&&<Row className="chat-scroll">
-            <p>aquí van los chats
+            <p>
+                {chatText}
             </p>
         </Row>}
         <Row>
