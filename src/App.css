@@ -11,8 +11,9 @@ width: 100%;}
 }
 
 .chat-scroll {
+  max-height: 350px;
   height: 90%;
-  /* width: 100%; */
+  vertical-align: top;
   border: 2px solid black;
   word-wrap: break-word;
   overflow-y: scroll;

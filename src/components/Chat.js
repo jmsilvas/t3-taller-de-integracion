@@ -10,12 +10,12 @@ export default function Chat(props) {
 
     socket.on("CHAT", (payload) => {
         if (payload.name===nickname) {
-            setChatText(chatText+"yo"+Date(payload.date).split("GMT")[0]+payload.message)
+            setChatText(chatText+"yo"+"separeichon"+Date(payload.date).split("GMT")[0]+"separeichon"+payload.message+"qwertyui")
             
             
         }
         else{
-            setChatText(chatText+payload.name+Date(payload.date).split("GMT")[0]+payload.message)
+            setChatText(chatText+payload.name+"separeichon"+Date(payload.date).split("GMT")[0]+"separeichon"+payload.message+"qwertyui")
         }
       });
     
@@ -27,9 +27,15 @@ export default function Chat(props) {
     return (
         <>
         {nickname&&<Row className="chat-scroll">
-            <p>
-                {chatText}
-            </p>
+            <div>
+              {chatText.split("qwertyui").map((msg) => (
+                  <>
+                  <div>{msg.split("separeichon")[0]} {msg.split("separeichon")[1]}</div>
+                  <p>{msg.split("separeichon")[2]}</p>
+                  </>
+
+              ))}
+              </div> 
         </Row>}
         <Row>
         <InputGroup className="input-group23">
