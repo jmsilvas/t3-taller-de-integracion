@@ -8,6 +8,7 @@ export default function Map(props) {
 
     socket.on("POSITION", (payload) => {
         positions[payload.code] = payload.position
+        // console.log(payload.position);
         setPosition(positions)
       });
 

@@ -5,31 +5,33 @@ import Chat from './components/Chat';
 import {Container, Row, Col} from 'reactstrap';
 import {socket} from './services/socket'
 
-socket.emit("FLIGHTS")
+
 
 function App() {
   const [flights, setFlights] = useState([]);
 
-  // function getRandomColor() {
-  //     var letters = '0123456789ABCDEF';
-  //     var color = '#';
-  //     for (var i = 0; i < 6; i++) {
-  //       color += letters[Math.floor(Math.random() * 16)];
-  //     }
-  //     return color;
-  //   }  
-
-
-  
-  
-    socket.on("FLIGHTS", (payload) => {
-      for (let index = 0; index < payload.length; index++) {
-        payload[index]["color"]='blue';
-        
+  function getRandomColor() {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-      setFlights(payload)
-      });
-   
+      return color;
+    }  
+  useEffect(() => {
+    socket.emit("FLIGHTS")      
+  }, [flights])
+  
+  socket.on("FLIGHTS", (payload) => {
+    for (let index = 0; index < payload.length; index++) {
+      payload[index]["color"]="red";
+      
+    }
+    setFlights(payload)
+    });
+  
+  
+  
 
   
   return (

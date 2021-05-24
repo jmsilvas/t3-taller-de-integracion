@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {InputGroupAddon, Row, Button, Input, InputGroup} from 'reactstrap';
 import {socket} from '../services/socket'
 
@@ -10,12 +10,12 @@ export default function Chat(props) {
 
     socket.on("CHAT", (payload) => {
         if (payload.name===nickname) {
-            setChatText(chatText+"yo"+payload.date+payload.message)
+            setChatText(chatText+"yo"+Date(payload.date).split("GMT")[0]+payload.message)
             
             
         }
         else{
-            setChatText(chatText+payload.name+payload+payload.message)
+            setChatText(chatText+payload.name+Date(payload.date).split("GMT")[0]+payload.message)
         }
       });
     
